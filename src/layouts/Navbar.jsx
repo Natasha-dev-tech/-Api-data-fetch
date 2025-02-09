@@ -9,11 +9,13 @@ const Navbar = () => {
    <>
    <div className="py-[30px]">
     <Container>
-        <Flex classNamee={"items-center justify-between"}>
-         <div className="w-[50%]">
+        <Flex classNamee={"items-center justify-between gap-x-20"}>
+         <div className="w-[70%]">
+         <Link to={"/"}>
             <h1 className='text-[#000000] font-bold text-[24px]'>Shopping Cart</h1>
+            </Link>
          </div>
-         <div className="w-[50%]">
+         <div className="w-[30%] justify-end">
             <Menu className={"flex text-[#000] gap-x-20"}>
               <Link to={"/"}>
               <li className='text-[#000000] font-bold text-[24px]'>Home</li>
