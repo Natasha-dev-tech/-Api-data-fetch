@@ -3,8 +3,10 @@ import Container from '../components/Container'
 import Flex from '../components/Flex'
 import Menu from '../components/Menu'
 import { Link } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 
 const Navbar = () => {
+  const cartItems=useSelector(state=>state.cart.items)
   return (
    <>
    <div className="py-[30px]">
@@ -21,7 +23,7 @@ const Navbar = () => {
               <li className='text-[#000000] font-bold text-[24px]'>Home</li>
               </Link>
                 <Link to={"/cart"}>
-                <li className='text-[#000000] font-bold text-[24px]'>Cart</li>
+                <li className='text-[#000000] font-bold text-[24px]' >Cart ({cartItems.length})</li>
                 </Link>
             </Menu>
          </div>

@@ -4,20 +4,27 @@ import Image from '../components/Image';
 import Button from '../components/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { removeFromCart } from '../features/Shopcart/cartSlice';
+import { applyTempUpdate, removeFromCart, updateTempQuantity } from '../features/Shopcart/cartSlice';
 
 const Cart = () => {
   const { items: cartItems, totalPrice,tempItems } = useSelector(state => state.cart);
-  useSelector(state=>(state))
+  // useSelector(state=>(state)) 
    const dispatch=useDispatch()
 
   const handleRemoveItem=(id)=>{
     dispatch(removeFromCart(id))
   }
   const handleUpdateQuantity=(id,quantity)=>{
-    console.log(id,quantity);
+    dispatch(updateTempQuantity({id,quantity}))
     
   }
+  const handleApplyUpdates = () => {
+    tempItems.forEach((item) => {
+      dispatch(applyTempUpdate({ id: item.id, quantity: item.quantity })); // Pass quantity correctly
+    });
+  };
+ 
+  
 
   return (
     <div className="py-[30px]">
@@ -33,7 +40,7 @@ const Cart = () => {
                 </div>
                 <div>
                   <h3 className="font-bold">{item.title}</h3>
-                  <p>Price: ${item.price}</p>
+                  <p>Price: ${item.price .toFixed(2)}</p>
                   <div className="mt-2">
                     <input 
                       type="number" 
@@ -42,11 +49,12 @@ const Cart = () => {
                       value={tempItems.find((tempItem)=>tempItem.id===item.id)?.
                         quantity|| item.quantity}
                         onChange={(e)=>handleUpdateQuantity(item.id,parseInt(e.target.value))}
+                    
                        className="py-[10px] px-[5px] border"
                     />
                     <button
-                      
-                      className="py-[8px] ml-[20px] inline-block px-[28px] bg-[#FFA500] text-white font-bold"
+                      onClick={handleApplyUpdates}
+                      className="py-[8px] cursor-pointer ml-[20px] inline-block px-[28px] bg-[#FFA500] text-white font-bold"
                     >Update</button>
                     <button className="py-[8px] cursor-pointer ml-[20px] inline-block px-[28px] bg-[#FF0000] text-white font-bold"
                       onClick={()=>handleRemoveItem(item.id)}
@@ -56,13 +64,16 @@ const Cart = () => {
               </div>
             ))
           ) : (
-            <p className="text-gray-500">Your cart is empty.</p>
+            <p className="text-gray-500 text-4xl">Your cart is empty.</p>
+           
+          
+           
           )}
 
           <div className="flex justify-between">
             <div></div>
             <div className="ms-auto">
-              <p className="text-xl font-bold">Total: ${totalPrice}</p>
+              <p className="text-xl font-bold">Total: ${totalPrice.toFixed(2)}</p>
              <Link to={"/"}>
              <Button 
                 btntext="Back to Shop" 
